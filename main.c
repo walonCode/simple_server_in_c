@@ -1,4 +1,4 @@
-#include "server.h"
+#include "./cmd/server.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -10,7 +10,7 @@ int main(){
         int client_fd = accept_client(listen_fd);
         if(client_fd < 0) continue;
 
-        char buf[1024];
+        char buf[20000];
         ssize_t n = read_from_client(client_fd, buf, sizeof(buf) - 1);
         if(n > 0){
             buf[n] = '\0';
@@ -18,7 +18,7 @@ int main(){
         }
 
         // respond to client
-        response_to_client(client_fd);
+        response_to_get(client_fd, buf, n);
         // do NOT close(client_fd) here; already closed in response
     }
 
