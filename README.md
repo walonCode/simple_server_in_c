@@ -60,13 +60,13 @@ graph TD
 
 ```
 simple_server_in_c/
-├── src/
-│   ├── webserver.c          # Main server implementation
-│   ├── http_parser.c        # HTTP request parsing
-│   └── http_parser.h        # Header for HTTP functions
-├── examples/
-│   └── client_example.c     # Example client code
+├── cmd/
+│   ├── server.c
+│   ├── server.h
+├── static/
+│   └── index.html          # html we are sending to the user
 ├── Makefile                 # Build configuration
+├── main.c                   # Server entry point
 ├── LICENSE                  # MIT License
 └── README.md               # This file
 ```
@@ -88,7 +88,7 @@ cd simple_server_in_c
 make run
 
 # Or compile manually
-gcc -o main main.c server.c server.h
+gcc -o main main.c ./cmd/server.c ./cmd/server.h
 ```
 
 ### Running the Server
