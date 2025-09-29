@@ -1,2 +1,2 @@
 run:
-	gcc -o main main.c server.c server.h && ./main
+	gcc -o main main.c ./cmd/server.c ./cmd/server.h && ./main
