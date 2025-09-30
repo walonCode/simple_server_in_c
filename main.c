@@ -4,22 +4,25 @@
 #include <unistd.h>
 
 int main(){
+    printf("server is running on http://localhost:8080\n");
     int listen_fd = create_listen_socket(8080);
 
     while(1){
         int client_fd = accept_client(listen_fd);
         if(client_fd < 0) continue;
 
-        char buf[20000];
+        char buf[BUFFER];
         ssize_t n = read_from_client(client_fd, buf, sizeof(buf) - 1);
         if(n > 0){
-            buf[n] = '\0';
-            printf("Received:\n%s\n", buf);
+            // do not read again here; pass buf + n to handler
+            printf("Received (raw):\n%.*s\n", (int)n, buf);
+        } else {
+            close(client_fd);
+            continue;
         }
 
-        // respond to client
+        // response_to_get will handle GET/POST and close client_fd
         response_to_get(client_fd, buf, n);
-        // do NOT close(client_fd) here; already closed in response
     }
 
     close(listen_fd);
